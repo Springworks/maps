@@ -1,0 +1,49 @@
+body {
+  margin: 0;
+  font-family: 'Roboto thin', sans-serif;
+}
+
+#map {
+  height: 100vh;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+}
+
+.lines-container {
+}
+
+.line {
+  position: relative;
+  padding: 8px;
+}
+
+textarea {
+  width: 100%;
+  display: block;
+}
+
+label {
+  font-size: 70%;
+}
+
+button {
+  border: none;
+  background: #3ba898;
+  padding: 8px 16px;
+  color: white;
+}
+
+.remove-line {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 50%;
+  padding: 8px 12px;
+}
+
+.line:first-of-type .remove-line {
+  display: none;
+}

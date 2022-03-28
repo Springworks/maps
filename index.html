@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Polyline</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://npmcdn.com/leaflet@1.0.0-rc.2/dist/leaflet.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div id="map"></div>
+      <div class="lines-container">
+        <div class="line">
+          <label>Unescape '\': <input name="unescape" type="checkbox" /></label>
+          <label>Polyline6: <input name="polyline6" type="checkbox" /></label>
+          <label>Hidden: <input name="hide" type="checkbox" /></label>
+          <textarea name="shape" rows="4" placeholder="Encoded line"></textarea>
+          <button class="remove-line">X</button>
+        </div>
+        <button class="add-line">+ Add line</button>
+      </div>
+    </div>
+    <script src="https://npmcdn.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="decode.js"></script>
+    <script>
+      //make a map using osm tiles
+      var map = L.map('map').setView([40.5, -76.5], 9);
+      L.tileLayer('http://b.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19.99,
+        attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributers',
+      }).addTo(map);
+    </script>
+    <script src="lines.js"></script>
+  </body>
+</html>
