@@ -97,25 +97,32 @@ function keyClickHandler(e) {
   persistState(lines);
 }
 
+function parseState() {
+  const state = JSON.parse(decodeURIComponent(location.hash.substring(1)));
+
+  state.forEach((line, i) => {
+    if (i > 0) {
+      linesContainer.insertBefore(template.cloneNode(true), addButton);
+    }
+
+    const lastLineElement = linesContainer.querySelector('.line:last-of-type');
+    lastLineElement.querySelector('[name=unescape]').checked = line.unescape;
+    lastLineElement.querySelector('[name=polyline6]').checked = line.polyline6;
+    lastLineElement.querySelector('[name=hide]').checked = line.hide;
+    lastLineElement.querySelector('[name=shape]').value = line.shape;
+  });
+
+  if (state.length) render(state, true);
+}
+
 linesContainer.addEventListener('keyup', keyClickHandler);
 linesContainer.addEventListener('click', keyClickHandler);
 
 // read current state
-const state = JSON.parse(decodeURIComponent(location.hash.substring(1)));
-
-state.forEach((line, i) => {
-  if (i > 0) {
-    linesContainer.insertBefore(template.cloneNode(true), addButton);
-  }
-
-  const lastLineElement = linesContainer.querySelector('.line:last-of-type');
-  lastLineElement.querySelector('[name=unescape]').checked = line.unescape;
-  lastLineElement.querySelector('[name=polyline6]').checked = line.polyline6;
-  lastLineElement.querySelector('[name=shape]').value = line.shape;
-});
-
-if (state.length) render(state, true);
+parseState();
 
 window.addEventListener('hashchange', () => {
-  render(state, true);
+  const removable = Array.from(linesContainer.querySelectorAll('.line')).slice(1);
+  removable.forEach(x => linesContainer.removeChild(x));
+  parseState();
 })
