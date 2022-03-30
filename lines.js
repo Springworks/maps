@@ -11,7 +11,7 @@ function persistState(lines) {
   history.pushState(null, '', `#${encodeURIComponent(JSON.stringify(lines))}`);
 }
 
-function render(lines) {
+function render(lines, fitToBounds) {
   // reset all layers
   while (layers.length) {
     const layer = layers.pop();
@@ -51,6 +51,7 @@ function render(lines) {
       layers.push(
         L.marker(x, {
           icon,
+          title: `${x[0]},${x[1]}`,
         }).addTo(map),
       );
 
@@ -65,7 +66,9 @@ function render(lines) {
     );
 
     //fit it in view
-    map.fitBounds(allBounds);
+    if (fitToBounds) {
+      map.fitBounds(allBounds);
+    }
   });
 }
 
@@ -90,7 +93,7 @@ function keyClickHandler(e) {
     shape: x.querySelector('[name=shape]').value,
   }));
 
-  render(lines);
+  render(lines, false);
   persistState(lines);
 }
 
@@ -111,4 +114,8 @@ state.forEach((line, i) => {
   lastLineElement.querySelector('[name=shape]').value = line.shape;
 });
 
-if (state.length) render(state);
+if (state.length) render(state, true);
+
+window.addEventListener('hashchange', () => {
+  render(state, true);
+})
